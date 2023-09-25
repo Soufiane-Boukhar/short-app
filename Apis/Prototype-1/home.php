@@ -70,6 +70,8 @@
 
                         require_once('config.php');
                         require_once('php/stagiaire.php');
+                        require_once('php/gestionStagiare.php');
+
                         $stagiaireFunctions = new GestionStagiaire($pdo);
                         $stagiaires = $stagiaireFunctions->showStagiaire();
 
