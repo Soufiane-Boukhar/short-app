@@ -9,19 +9,16 @@ if (isset($_POST['logOUT'])) {
     header("location:index.php");
 }
 require_once('config.php');
-require_once('php/stagiaire.php');
-$message = ""; 
-$messagePassword = "";
-
-
+require_once('php/gestionStagiaire.php');
 if (isset($_POST['update'])) {
+    $message = "";
     $nom = $_POST['nom'];
     $prenom = $_POST['prenom'];
     $email = $_POST['email'];
     $ville = $_POST['ville'];
     $FINDemail = $_POST["FINDemail"];
     $stagiaireFunctions = new GestionStagiaire($pdo);
-    
+
     $editerInfoStagiaire = $stagiaireFunctions->editerStagiaire($nom, $prenom, $email, $ville, $FINDemail);
 
     if ($editerInfoStagiaire) {
@@ -32,20 +29,20 @@ if (isset($_POST['update'])) {
 }
 
 
-if(isset($_POST["changePassword"])){
+if (isset($_POST["changePassword"])) {
     $anciennePss = $_POST["ancienPass"];
     $newPss = $_POST["newPass"];
     $email = $_SESSION['email'];
+    $messagePassword = "";
 
     $dbPass = new GestionStagiaire($pdo);
-    $changePassword = $dbPass->editePassword($anciennePss,$newPss,$email);
+    $changePassword = $dbPass->editePassword($anciennePss, $newPss, $email);
 
-    if($changePassword === TRUE){
+    if ($changePassword === TRUE) {
         $message = "Votre mot de passe a été modifié avec succès";
-    }else{
+    } else {
         $messagePassword = "Ancienne mot de passe est incorrect";
     }
-
 }
 
 ?>
@@ -107,66 +104,67 @@ if(isset($_POST["changePassword"])){
             </div>
             <div class="col p-4">
                 <h3 class="lead">Modifier mes informations</h3>
-                <p class="text-success"><?php if($message !=""){
-                    echo $message;
-                }?></p>
-                <p class="text-danger"><?php if($messagePassword !=""){
-                    echo $messagePassword;
-                }?></p>
+                <p class="text-success"><?php echo $message; ?></p>
+                <p class="text-danger"><?php echo $messagePassword; ?></p>
                 <div style="margin-top: 50px;">
                     <form action="" method="post">
 
-                        <?php 
+                        <?php
+                        require_once('config.php');
+                        require_once('php/stagiaire.php');
 
-                        $email = $_SESSION['email'];
+                        if (isset($_SESSION['email'])) {
+                            $email = $_SESSION['email'];
 
+                            $dbInfo = new GestionStagiaire($pdo);
+                            $infoStagiaire = $dbInfo->showMyInfo($email);
 
+                            if (!empty($infoStagiaire)) {
+                                $data = $infoStagiaire[0]['stagiaire'];
+                                $ville = $infoStagiaire[0]['ville'];
 
-                        $dbInfo = new GestionStagiaire($pdo);
-                        $infoStagiaire = $dbInfo->showMyInfo($email);
-
-                        if($infoStagiaire){
-                            ?>
-                        <div class="form-group mb-3">
-                            <label for="f_name">Nom</label>
-                            <input type="text" class="form-control form-control-lg" name="nom" id="f_name" aria-describedby="emailHelp" value="<?php echo $infoStagiaire[0]['nom']; ?>">
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="l_name">Prenom</label>
-                            <input type="text" class="form-control form-control-lg" name="prenom" id="l_name" aria-describedby="emailHelp" value="<?php echo $infoStagiaire[0]['prenom']; ?>">
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control form-control-lg" name="email" id="email" aria-describedby="emailHelp" value="<?php echo $infoStagiaire[0]['email']; ?>">
-                        </div>
-
-                        <div class="form-group">
-                            <select class="form-select form-select-lg" aria-label="Default select example" name="ville">
-                                <option value="<?php echo $infoStagiaire[0]['nom_ville']; ?>"><?php echo $infoStagiaire[0]['nom_ville']; ?></option>
-                                <option value="Casablanca">Casablanca</option>
-                                <option value="Tanger">Tanger</option>
-                                <option value="Rabat">Rabat</option>
-                                <option value="Marrakech">Marrakech</option>
-                                <option value="Agadir">Agadir</option>
-                                <option value="Mohammédia">Mohammédia</option>
-                                <option value="Tétouan">Tétouan</option>
-                                <option value="Fès">Fès</option>
-                            </select>
-                        </div>
-                        <input type="hidden" name="FINDemail" value="<?php echo $infoStagiaire[0]['email']; ?>">
-
-                        
-                        <button type="submit" name="update" class="btn btn-primary mt-3">Editer</button>
-                        <button type="button" class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            Changer mot de passe
-                        </button>
-                            <?php
-                        }
-                        
-                        
-                        
                         ?>
-                        
+                                <div class="form-group mb-3">
+                                    <label for="f_name">Nom</label>
+                                    <input type="text" class="form-control form-control-lg" name="nom" id="f_name" aria-describedby="emailHelp" value="<?php echo $data->getNom(); ?>">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="l_name">Prenom</label>
+                                    <input type="text" class="form-control form-control-lg" name="prenom" id="l_name" aria-describedby="emailHelp" value="<?php echo $data->getPrenom(); ?>">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control form-control-lg" name="email" id="email" aria-describedby="emailHelp" value="<?php echo $data->getEmail(); ?>">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="ville">Ville</label>
+                                    <select class="form-select form-select-lg" id="ville" name="ville">
+                                        <option value="<?php echo $ville; ?>"><?php echo $ville; ?></option>
+                                        <option value="Casablanca">Casablanca</option>
+                                        <option value="Tanger">Tanger</option>
+                                        <option value="Rabat">Rabat</option>
+                                        <option value="Marrakech">Marrakech</option>
+                                        <option value="Agadir">Agadir</option>
+                                        <option value="Mohammédia">Mohammédia</option>
+                                        <option value="Tétouan">Tétouan</option>
+                                        <option value="Fès">Fès</option>
+                                    </select>
+                                </div>
+                                <input type="hidden" name="FINDemail" value="<?php echo $data->getEmail(); ?>">
+
+                                <button type="submit" name="update" class="btn btn-primary mt-3">Editer</button>
+                                <button type="button" class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Changer mot de passe
+                                </button>
+                        <?php
+                            } else {
+                                echo 'No information found for the logged-in user.';
+                            }
+                        }
+                        ?>
+
+
 
                     </form>
                 </div>
@@ -184,18 +182,18 @@ if(isset($_POST["changePassword"])){
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                <form action="" method="post">
+                    <form action="" method="post">
                         <div class="form-group mb-3">
                             <label for="password">Ancienne mot de passe</label>
                             <input type="password" class="form-control form-control-lg" name="ancienPass" id="password" aria-describedby="emailHelp">
                         </div>
                         <div class="form-group mb-3">
                             <label for="newPassword">Noveau mot de passe</label>
-                            <input type="password" class="form-control form-control-lg" name="newPass" id="newPassword" aria-describedby="emailHelp" >
+                            <input type="password" class="form-control form-control-lg" name="newPass" id="newPassword" aria-describedby="emailHelp">
                         </div>
 
                         <button type="submit" name="changePassword" class="btn btn-primary mt-3">Changer</button>
-                    
+
                     </form>
                 </div>
                 <div class="modal-footer">

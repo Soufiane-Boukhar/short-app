@@ -14,10 +14,7 @@
 
   require('config.php');
   require_once('php/stagiaire.php');
-
-
-
-
+  require_once('php/gestionStagiaire.php');
 
   if (isset($_POST['submit'])) {
 
