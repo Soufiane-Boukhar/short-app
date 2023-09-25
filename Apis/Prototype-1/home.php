@@ -63,7 +63,6 @@
                             <th>Nom</th>
                             <th>Prenom</th>
                             <th>Email</th>
-                            <th>Ville</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -80,7 +79,6 @@
                                 echo '<td>' . $stagiaire['nom'] . '</td>';
                                 echo '<td>' . $stagiaire['prenom'] . '</td>';
                                 echo '<td>' . $stagiaire['email'] . '</td>';
-                                echo '<td>' . $stagiaire['nom_ville'] . '</td>';
                                 echo '</tr>';
                             }
                         }

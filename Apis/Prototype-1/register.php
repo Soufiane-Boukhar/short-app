@@ -28,10 +28,9 @@
       $password = $_POST["password"];
       $nom_ville = $_POST["ville"];
       $stagiaireFunctions = new GestionStagiaire($pdo);
-      $personne = new Personne($f_name, $l_name);
       $stagiaire = new Stagiaire($f_name, $l_name, $email, $password);
-      $ville = new Ville($nom_ville);
-      $stagiaireFunctions->insertStagiaire($stagiaire, $ville);
+      $stagiaireFunctions->insertStagiaire($stagiaire);
+
 
       if ($stagiaireFunctions) {
         header("location:home.php");

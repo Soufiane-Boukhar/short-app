@@ -1,5 +1,5 @@
 <?php 
- $dbname = 'shortapp';
+ $dbname = 'addStagiaire';
  $host = 'localhost';
  $username = 'root';
  $password = '';
