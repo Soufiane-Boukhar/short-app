@@ -104,8 +104,12 @@ if (isset($_POST["changePassword"])) {
             </div>
             <div class="col p-4">
                 <h3 class="lead">Modifier mes informations</h3>
-                <p class="text-success"><?php echo $message; ?></p>
-                <p class="text-danger"><?php echo $messagePassword; ?></p>
+                <p class="text-success"><?php if($message !=""){
+                    echo $message;
+                }  ?></p>
+                <p class="text-danger"><?php if($messagePassword !=""){
+                    echo $messagePassword;
+                } ?></p>
                 <div style="margin-top: 50px;">
                     <form action="" method="post">
 

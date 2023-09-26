@@ -50,7 +50,7 @@ class GestionStagiaire {
 
 
     public function showStagiaire(){
-        $queryStagiaires = "SELECT p.nom, p.prenom, s.email, v.nom_ville FROM personne p INNER JOIN ville v ON v.id_personne = p.id INNER JOIN stagiaire s ON s.id_personne = p.id";
+        $queryStagiaires = "SELECT p.nom, p.prenom, s.email, v.nom_ville FROM personne p INNER JOIN ville v ON v.id = p.id_ville INNER JOIN stagiaire s ON s.id_personne = p.id";
         $stmtStagiairesList = $this->pdo->prepare($queryStagiaires);
         $stmtStagiairesList->execute();
         $stagiaires = [];
@@ -72,7 +72,7 @@ class GestionStagiaire {
     
     
     public function showMyInfo($email){
-        $queryINfo = "SELECT * FROM stagiaire s INNER JOIN personne p ON s.id_personne = p.id INNER JOIN ville v ON  p.id = v.id_personne WHERE s.email= :email";
+        $queryINfo = "SELECT * FROM stagiaire s INNER JOIN personne p ON s.id_personne = p.id INNER JOIN ville v ON  p.id_ville = v.id WHERE s.email= :email";
         $stmtInfo = $this->pdo->prepare($queryINfo);
         $stmtInfo->bindParam(':email',$email);
         $stmtInfo->execute();
@@ -101,12 +101,6 @@ class GestionStagiaire {
         $stmtPersonne->bindParam(':FINDemail',$FINDemail);
         $stmtPersonne->execute();
 
-
-        $queryVille = "UPDATE ville SET nom_ville = :ville WHERE id_personne IN (SELECT id_personne FROM stagiaire WHERE email = :FINDemail)";
-        $stmtVille = $this->pdo->prepare($queryVille);
-        $stmtVille->bindParam(':ville',$ville);
-        $stmtVille->bindParam(':FINDemail',$FINDemail);
-        $stmtVille->execute();
 
 
         $queryStagiaire = "UPDATE stagiaire SET email = :email WHERE email = :FINDemail";
@@ -140,11 +134,6 @@ class GestionStagiaire {
 
     public function deleteStagiare($email,$prenom,$nom){
 
-        $queryDeleteVille = "DELETE FROM ville WHERE id_personne IN (SELECT id_personne FROM stagiaire WHERE email = :email)";
-        $stmtDeleteVille = $this->pdo->prepare($queryDeleteVille);
-        $stmtDeleteVille->bindParam(':email',$email);
-        $stmtDeleteVille->execute();
-
         $queryDeleteStagiare = "DELETE FROM stagiaire WHERE email = :email";
         $stmtDeleteStagiaire = $this->pdo->prepare($queryDeleteStagiare);
         $stmtDeleteStagiaire->bindParam(':email',$email);
@@ -161,7 +150,7 @@ class GestionStagiaire {
 
     public function login($email, $password)
     {
-      $sql = $this->pdo->prepare("SELECT * FROM stagiaire s INNER JOIN personne p ON s.id_personne = p.id INNER JOIN ville v ON  p.id = v.id_personne WHERE s.email= :email");
+      $sql = $this->pdo->prepare("SELECT * FROM stagiaire s INNER JOIN personne p ON s.id_personne = p.id INNER JOIN ville v ON  v.id = p.id_ville WHERE s.email= :email");
       $sql->bindParam(':email', $email);
       $sql->execute();
 
