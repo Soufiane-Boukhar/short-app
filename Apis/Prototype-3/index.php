@@ -12,38 +12,15 @@
   <?php
 
   require('config.php');
+  require_once('php/gestionStagiaire.php');
   $message = "";
 
-  class LogInStagiaire
-  {
-    private $pdo;
-
-    public function __construct($pdo)
-    {
-      $this->pdo = $pdo;
-    }
-
-    public function login($email, $password)
-    {
-      $sql = $this->pdo->prepare("SELECT * FROM stagiaire s INNER JOIN personne p ON s.id_personne = p.id INNER JOIN ville v ON  p.id = v.id_personne WHERE s.email= :email");
-      $sql->bindParam(':email', $email);
-      $sql->execute();
-
-      $stagiaire = $sql->fetch(PDO::FETCH_ASSOC);
-
-      if ($stagiaire) {
-        if (password_verify($password, $stagiaire['password'])) {
-          return $stagiaire;
-        }
-      }
-      return false;
-    }
-  }
+ 
 
   if (isset($_POST["signin"])) {
     $email = $_POST["email"];
     $password = $_POST["password"];
-    $logInStagiaire = new LogInStagiaire($pdo);
+    $logInStagiaire = new GestionStagiaire($pdo);
     $stagiaire = $logInStagiaire->login($email, $password);
 
     if ($stagiaire) {

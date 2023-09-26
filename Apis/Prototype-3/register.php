@@ -14,33 +14,38 @@
 
   require('config.php');
   require_once('php/stagiaire.php');
+  require_once('php/gestionStagiaire.php');
 
   if (isset($_POST['submit'])) {
+
     try {
-        $f_name = $_POST["f_name"];
-        $l_name = $_POST["l_name"];
-        $email = $_POST["email"];
-        $password = $_POST["password"];
-        $nom_ville = $_POST["ville"];
-        $stagiaireFunctions = new GestionStagiaire($pdo);
-        $personne = new Personne($f_name, $l_name);
-        $stagiaire = new Stagiaire($f_name, $l_name, $email, $password);
-        $ville = new Ville($nom_ville);
+      $f_name = $_POST["f_name"];
+      $l_name = $_POST["l_name"];
+      $email = $_POST["email"];
+      $password = $_POST["password"];
+      $nom_ville = $_POST["ville"];
+      $stagiaireFunctions = new GestionStagiaire($pdo);
+      $personne = new Personne($f_name, $l_name);
+      $stagiaire = new Stagiaire($f_name, $l_name, $email, $password);
+      $ville = new Ville($nom_ville);
+      $stagiaireFunctions->insertStagiaire($stagiaire, $ville);
 
-        if ($stagiaireFunctions->checkEmail($email)) {
-            $message = "L'email existe déjà.";
-        } else {
-            $result = $stagiaireFunctions->insertStagiaire($stagiaire, $ville);
-            if ($result) {
-                header("location: index.php");
-            }
-        }
+      if ($stagiaireFunctions) {
+        header("location:home.php");
+      }
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+      echo "Error: " . $e->getMessage();
     }
-}
-
+  }
   ?>
+
+
+
+
+
+
+
+
 
   <section class="vh-100" style="background-color: #5eb1f7;">
     <div class="container py-2 h-100">
@@ -61,7 +66,6 @@
                       <span class="h1 fw-bold mb-0">StagiairePlus</span>
                     </div>
                     <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Ajouter un noveau stagiaire</h5>
-                    <p class="text-danger"><?php echo $message;?></p>
                     <div class="d-flex">
                       <div class="form-outline mb-4">
                         <input type="text" id="f_name" class="form-control form-control-lg" name="f_name" placeholder="Votre nom"/>
@@ -112,6 +116,14 @@
     </div>
   </section>
 
+
+
+
+
+
+
+
+  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 

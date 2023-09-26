@@ -92,16 +92,20 @@ if (isset($_POST["logOUT"])) {
 
                             require_once('config.php');
                             require_once('php/stagiaire.php');
+                            require_once('php/gestionStagiaire.php');
                             $stagiaireFunctions = new GestionStagiaire($pdo);
                             $stagiaires = $stagiaireFunctions->showStagiaire();
 
                             if (!empty($stagiaires)) {
-                                foreach ($stagiaires as $stagiaire) {
+                                foreach ($stagiaires as $data) {
+                                    $stagiaire = $data['stagiaire'];
+                                    $ville = $data['ville'];
+                                    
                                     echo '<tr>';
-                                    echo '<td>' . $stagiaire['nom'] . '</td>';
-                                    echo '<td>' . $stagiaire['prenom'] . '</td>';
-                                    echo '<td>' . $stagiaire['email'] . '</td>';
-                                    echo '<td>' . $stagiaire['nom_ville'] . '</td>';
+                                    echo '<td>' . $stagiaire->getNom() . '</td>';
+                                    echo '<td>' . $stagiaire->getPrenom() . '</td>';
+                                    echo '<td>' . $stagiaire->getEmail() . '</td>';
+                                    echo '<td>' . $ville . '</td>';
                                     echo '</tr>';
                                 }
                             }

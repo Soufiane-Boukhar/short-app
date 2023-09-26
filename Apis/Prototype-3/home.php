@@ -13,10 +13,9 @@ if (isset($_POST["logOUT"])) {
     header('location:index.php');
 }
 require_once('config.php');
-require_once('php/graphique.php');
-require_once('php/stagiaire.php');
-$dbGraphique = new Graphique($pdo);
-$countStagiaires = $dbGraphique->show();
+require_once('php/gestionStagiaire.php');
+$dbGraphique = new GestionStagiaire($pdo);
+$countStagiaires = $dbGraphique->showGraphique();
 
 if ($countStagiaires !== false) {
     $cityData = [];
