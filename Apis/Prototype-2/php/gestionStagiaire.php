@@ -21,19 +21,21 @@ class GestionStagiaire {
     }
 
     public function insertStagiaire(Stagiaire $stagiaire, Ville $ville) {
+
+        $queryVille = "SELECT id FROM ville WHERE nom_ville = :nom_ville";
+        $stmtVille = $this->pdo->prepare($queryVille);
+        $stmtVille->bindParam(':nom_ville', $ville->getVille());
+        $stmtVille->execute();
+
+        $id_ville = $stmtVille->fetch(PDO::FETCH_ASSOC);
     
-        $queryPersonne = "INSERT INTO personne (nom, prenom) VALUES (:nom, :prenom)";
+        $queryPersonne = "INSERT INTO personne (nom, prenom,id_ville) VALUES (:nom, :prenom ,:id)";
         $stmtPersonne = $this->pdo->prepare($queryPersonne);
         $stmtPersonne->bindParam(':nom', $stagiaire->getNom());
         $stmtPersonne->bindParam(':prenom', $stagiaire->getPrenom());
+        $stmtPersonne->bindParam(':id', $id_ville['id']);
         $stmtPersonne->execute();
         $personneId = $this->pdo->lastInsertId();
-    
-        $queryVille = "INSERT INTO ville (nom_ville, id_personne) VALUES (:nom_ville, :id_personne)";
-        $stmtVille = $this->pdo->prepare($queryVille);
-        $stmtVille->bindParam(':nom_ville', $ville->getVille());
-        $stmtVille->bindParam(':id_personne', $personneId);
-        $stmtVille->execute();
     
         $hashed_password = password_hash($stagiaire->getPassword(), PASSWORD_DEFAULT);
         $queryStagiaire = "INSERT INTO stagiaire (id_personne, email, password) VALUES (:id_personne, :email, :password)";
