@@ -13,8 +13,8 @@
   $message = '';
 
   require('config.php');
-  require_once('php/stagiaire.php');
-  require_once('php/gestionStagiaire.php');
+  require_once('php/entite/stagiaire.php');
+  require_once('php/gestion/gestionStagiaire.php');
 
   if (isset($_POST['submit'])) {
 

@@ -13,7 +13,7 @@ if (isset($_POST["logOUT"])) {
     header('location:index.php');
 }
 require_once('config.php');
-require_once('php/gestionStagiaire.php');
+require_once('php/gestion/gestionStagiaire.php');
 $dbGraphique = new GestionStagiaire($pdo);
 $countStagiaires = $dbGraphique->showGraphique();
 
@@ -144,7 +144,7 @@ if (isset($_POST["deleteAccount"])) {
                 label: 'Nombre des stagiaires par ville',
                 data: Object.values(cityData),
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
+                borderColor: 'rgba(0, 0, 0, 1)',
                 borderWidth: 1
             }]
         };

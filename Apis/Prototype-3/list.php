@@ -91,8 +91,8 @@ if (isset($_POST["logOUT"])) {
                             <?php
 
                             require_once('config.php');
-                            require_once('php/stagiaire.php');
-                            require_once('php/gestionStagiaire.php');
+                            require_once('php/entite/stagiaire.php');
+                            require_once('php/gestion/gestionStagiaire.php');
                             $stagiaireFunctions = new GestionStagiaire($pdo);
                             $stagiaires = $stagiaireFunctions->showStagiaire();
 

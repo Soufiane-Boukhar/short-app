@@ -9,7 +9,7 @@ if (isset($_POST['logOUT'])) {
     header("location:index.php");
 }
 require_once('config.php');
-require_once('php/gestionStagiaire.php');
+require_once('php/gestion/gestionStagiaire.php');
 if (isset($_POST['update'])) {
     $message = "";
     $nom = $_POST['nom'];
@@ -109,7 +109,8 @@ if (isset($_POST["changePassword"])) {
 
                         <?php
                         require_once('config.php');
-                        require_once('php/stagiaire.php');
+                        require_once('php/entite/stagiaire.php');
+                        
 
                         if (isset($_SESSION['email'])) {
                             $email = $_SESSION['email'];

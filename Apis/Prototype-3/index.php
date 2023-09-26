@@ -12,7 +12,7 @@
   <?php
 
   require('config.php');
-  require_once('php/gestionStagiaire.php');
+  require_once('php/gestion/gestionStagiaire.php');
   $message = "";
 
  
