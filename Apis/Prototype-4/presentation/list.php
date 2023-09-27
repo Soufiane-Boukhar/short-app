@@ -90,9 +90,10 @@ if (isset($_POST["logOUT"])) {
                         <tbody>
                             <?php
 
-                            require_once('config.php');
-                            require_once('php/entite/stagiaire.php');
-                            require_once('php/gestion/gestionStagiaire.php');
+                            require_once('../data-base/config.php');
+                            require_once('../application/entite/stagiaire.php');
+                            require_once('../application/entite/ville.php');
+                            require_once('../application/gestion/gestionStagiaire.php');
                             $stagiaireFunctions = new GestionStagiaire($pdo);
                             $stagiaires = $stagiaireFunctions->showStagiaire();
 

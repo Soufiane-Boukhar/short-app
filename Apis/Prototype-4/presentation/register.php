@@ -9,35 +9,44 @@
 </head>
 
 <body>
-  <?php
-  $message = '';
+<?php
+$message = '';
+require_once('../metier/ModelPersonne.php'); 
+require_once('../metier/ModelStagiaire.php'); 
+require_once('../metier/ModelVille.php');
+require_once('../application/gestion/gestionStagiaire.php');
+require_once('../data-base/config.php');
 
-  require('config.php');
-  require_once('php/entite/stagiaire.php');
-  require_once('php/gestion/gestionStagiaire.php');
-
-  if (isset($_POST['submit'])) {
-
+if (isset($_POST['submit'])) {
     try {
-      $f_name = $_POST["f_name"];
-      $l_name = $_POST["l_name"];
-      $email = $_POST["email"];
-      $password = $_POST["password"];
-      $nom_ville = $_POST["ville"];
-      $stagiaireFunctions = new GestionStagiaire($pdo);
-      $personne = new Personne($f_name, $l_name);
-      $stagiaire = new Stagiaire($f_name, $l_name, $email, $password);
-      $ville = new Ville($nom_ville);
-      $stagiaireFunctions->insertStagiaire($stagiaire, $ville);
+        $f_name = $_POST["f_name"];
+        $l_name = $_POST["l_name"];
+        $email = $_POST["email"];
+        $password = $_POST["password"];
+        $nom_ville = $_POST["ville"];
 
-      if ($stagiaireFunctions) {
-        header("location:home.php");
-      }
+        $db = new GestionStagiaire($pdo);
+
+        $stagiaire = new Stagiaire($f_name, $l_name, $email, $password);
+        $stagiaireValide = new ModelStagiaire();
+        $stagiaireValide->validateDonne($stagiaire->getNom(), $stagiaire->getPrenom(), $stagiaire->getEmail(), $stagiaire->getPassword());
+
+        $ville = new Ville($nom_ville);
+        $villeValide = new ModelVille();
+        $villeValide->validateDonne($ville->getVille());
+
+        
+
+        $stagiaireFunctions = $db->insertStagiaire($stagiaire, $ville);
+        if ($stagiaireFunctions) {
+            header("location:home.php");
+        }
     } catch (PDOException $e) {
-      echo "Error: " . $e->getMessage();
+        echo "Error: " . $e->getMessage();
     }
-  }
-  ?>
+}
+?>
+
 
 
 

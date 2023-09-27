@@ -12,8 +12,8 @@ if (isset($_POST["logOUT"])) {
     session_destroy();
     header('location:index.php');
 }
-require_once('config.php');
-require_once('php/gestion/gestionStagiaire.php');
+require_once('../data-base/config.php');
+require_once('../application/gestion/gestionStagiaire.php');
 $dbGraphique = new GestionStagiaire($pdo);
 $countStagiaires = $dbGraphique->showGraphique();
 

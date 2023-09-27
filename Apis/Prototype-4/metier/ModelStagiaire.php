@@ -1,26 +1,10 @@
-<?php
-require_once('php/entite/personne.php');
-
-class Stagiaire extends Personne{
-    private $email;
-    private $password;
-
-    public function __construct($nom,$prenom,$email,$password)
-    {
-        parent::__construct($nom,$prenom);
-        $this->email = $email;
-        $this->password = $password;
+<?php 
+require_once('../application/entite/stagiaire.php');
+class ModelStagiaire{
+    public function validateDonne($nom,$prenom,$email,$password){
+        if(!empty($nom) && !empty($prenom) && !empty($email) && !empty($password)){
+            $stagiaire = new Stagiaire($nom,$prenom,$email,$password);
+        }
     }
-
-    public function getEmail() {
-        return $this->email;
-    }
-
-    public function getPassword() {
-        return $this->password;
-    }
-
 }
-
-
 ?>

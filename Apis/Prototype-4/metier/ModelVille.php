@@ -1,15 +1,10 @@
 <?php 
-
-class Ville{
-    private $nom_ville;
-
-    public function __construct($nom_ville){
-        $this->nom_ville = $nom_ville;
-    }
-
-    public function getVille(){
-        return $this->nom_ville;
+require_once('../application/entite/ville.php');
+class ModelVille{
+    public function validateDonne($ville){
+        if(!empty($ville)){
+            $ville = new Ville($ville);
+        }
     }
 }
-
 ?>

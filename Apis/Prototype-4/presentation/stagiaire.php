@@ -8,8 +8,8 @@ if (isset($_POST['logOUT'])) {
     session_destroy();
     header("location:index.php");
 }
-require_once('config.php');
-require_once('php/gestion/gestionStagiaire.php');
+require_once('../data-base/config.php');
+require_once('../application/gestion/gestionStagiaire.php');
 if (isset($_POST['update'])) {
     $message = "";
     $nom = $_POST['nom'];
@@ -108,8 +108,10 @@ if (isset($_POST["changePassword"])) {
                     <form action="" method="post">
 
                         <?php
-                        require_once('config.php');
-                        require_once('php/entite/stagiaire.php');
+                        require_once('../data-base/config.php');
+                        require_once('../application/entite/stagiaire.php');
+                        require_once('../application/entite/ville.php');
+
                         
 
                         if (isset($_SESSION['email'])) {

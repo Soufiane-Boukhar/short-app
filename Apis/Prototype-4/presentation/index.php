@@ -11,8 +11,8 @@
 <body>
   <?php
 
-  require('config.php');
-  require_once('php/gestion/gestionStagiaire.php');
+  require('../data-base/config.php');
+  require_once('../application/gestion/gestionStagiaire.php');
   $message = "";
 
  

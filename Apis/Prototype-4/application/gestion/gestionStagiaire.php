@@ -1,6 +1,4 @@
 <?php 
-require_once('php/entite/ville.php');
-
 class GestionStagiaire {
     protected $pdo;
 
